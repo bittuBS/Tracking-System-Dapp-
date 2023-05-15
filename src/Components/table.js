@@ -28,8 +28,7 @@ console.log(allShipmentdata);
 </div>
 <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
     <table className="w-full table-auto text-sm text-left">
-        <thead className="bg-gray-50 text-gray-600 font-medium border-b
-        ">
+        <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
                 <th className="py-3 px-6">Sender</th>
                 <th className="py-3 px-6">Recevier</th>
@@ -42,7 +41,7 @@ console.log(allShipmentdata);
             </tr>
         </thead>
         <tbody className="text-gray-600 divide-y">
-            { allShipmentdata.map((shipment,idx)=>{
+            { allShipmentdata?.map((shipment,idx)=>(
                 <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">
                         {shipment.sender.slice(0,15)}...
@@ -51,7 +50,7 @@ console.log(allShipmentdata);
                         {shipment.receiver.slice(0,15)}...
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                        {converTime(shipment.pickUpTime)}
+                        {converTime(shipment.pickupTime)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                         {shipment.distance} km
@@ -62,17 +61,15 @@ console.log(allShipmentdata);
                     <td className="px-6 py-4 whitespace-nowrap">
                         {shipment.deliveryTime}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                        {shipment.deliveryTime}
-                    </td>
+                    
                     <td className="px-6 py-4 whitespace-nowrap">
                         {shipment.isPaid ? "completed": "Not complete"}
                     </td>
                     <td className="px-6 py-4  whitespace-nowrap">
-                        {shipment.status ==0 ? "pending" :shipment.status == 1 ? "IN_transit" : "deliverd"}
+                        {shipment.status == 0 ? "pending" :shipment.status == 1 ? "IN_transit" : "deliverd"}
                     </td>
                 </tr>
-            })}
+            ))}
         </tbody>
     </table>
 </div> 

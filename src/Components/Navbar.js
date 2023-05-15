@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-//import TrackingProvider from "../Context/tracking";
+//import {TrackingProvider} from "../Context/tracking";
 import Nav1 from "./SVG/Nav1"
 import Nav2 from "./SVG/Nav2";
 

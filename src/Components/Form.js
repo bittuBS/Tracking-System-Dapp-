@@ -5,7 +5,7 @@ function Form({setCreateShipmentModel, createShipmentModel, createShipment}){
 
 const [shipment, setShipment]= useState({
     receiver: "",
-    pickUpTime: "",
+    pickupTime: "",
     distance: "",
     price: "",
 });
@@ -49,13 +49,14 @@ return createShipmentModel ? (
                         ></input>
                         </div>
                         <div className="relative mt-3 ">
-                            <input type="date " 
-                            placeholder="pickupTime"
+                            <input
+                             type="date" 
+                             placeholder="pickupTime"
                             className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent
                             outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             onChange={(e)=>setShipment({
                                 ...shipment,
-                                pickUpTime:e.target.value,
+                                pickupTime:e.target.value,
                             })}></input>
                         </div>
                         <div className="relative mt-3">
@@ -63,7 +64,7 @@ return createShipmentModel ? (
                             placeholder="distance"
                             className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent
                             outline-none border focus:border-indigo-600 shadow-sm rounded-lg "
-                            onClick={(e)=>
+                            onChange={(e)=>
                                 setShipment({
                                     ...shipment,
                                     distance: e.target.value,
@@ -75,8 +76,7 @@ return createShipmentModel ? (
                             placeholder="price"
                             className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent
                             outline-none border focus:border-indigo-600 shadow-sm rounded-lg "
-                            onClick={(e)=>
-                                setShipment({
+                            onChange={(e)=>setShipment({
                                     ...shipment,
                                     price: e.target.value,
                                 })

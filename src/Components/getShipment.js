@@ -5,7 +5,7 @@ function Getshipment({getModal, setGetModal, getShipment}){
 const[index,setIndex]= useState(0);
 const [singleShipmentData, setSingShipment]= useState();
 const getshipmentData = async()=>{
-    const getData =await getShipment(index);
+    const getData = await getShipment(index);
     setSingShipment(getData);
 };
 console.log(singleShipmentData);
@@ -38,7 +38,7 @@ return getModal ? (
                             placeholder="Id"
                             className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent
                             outline-none border focus:border-indigo-600 shadow-sm rounded-lg "
-                            onClick={(e)=>setIndex(e.target.value)}
+                            onChange={(e)=>setIndex(e.target.value)}
                             />
                         </div>
                         <button onClick={()=>getshipmentData()}
@@ -47,11 +47,11 @@ return getModal ? (
                             rounded-lg ring-offset-2 ring-indigo-600 focus:ring-2"
                         >Get details</button>
                     </form>
-                    {singleShipmentData ==undefined ? (""):(
+                    {singleShipmentData == undefined ? (""):(
                         <div className="text-left">
                             <p> Sender:{ singleShipmentData.sender.slice(0,25)}...</p>
                             <p> Receiver:{ singleShipmentData.receiver.slice(0,25)}...</p>
-                            <p> pickupTime:{converTime(singleShipmentData.pickUpTime)}</p>
+                            <p> pickupTime:{converTime(singleShipmentData.pickupTime)}</p>
                             <p> DeliveryTime:{ converTime(singleShipmentData.deliveryTime)}</p>
                             <p> Distance:{singleShipmentData.distance}</p>
                             <p> Price:{singleShipmentData.price}</p>

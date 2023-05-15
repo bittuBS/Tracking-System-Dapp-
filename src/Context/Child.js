@@ -11,20 +11,20 @@ import tracking from "./tracking.json";
 //fetch the contract
 
 
-function Child (props)
-{
-    const ContractAddress="0x5fbdb2315678afecb367f032d93f642f64180aa3";
+
+    const ContractAddress="0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const ContractABI =tracking.abi;
     const fetchContract =(singnerOrProvider)=>
 new ethers.Contract(ContractAddress,ContractABI,singnerOrProvider);
-
+export const TrackingContext =React.createContext();
+export const TrackingProvider =({children})=>{
     //State variable
     const dappname ="hello";
     const [currentUser,setcurrentUser] = useState();
 
     const createShipment =async(item)=>{
         console.log(item);
-        const{receiver,pickUpTime,distance,price}= item;
+        const{receiver,pickupTime,distance,price}= item;
         try{
             const web3Modal =new Web3Modal();
             const connection = await web3Modal.connect();
@@ -32,10 +32,15 @@ new ethers.Contract(ContractAddress,ContractABI,singnerOrProvider);
             const signer =provider.getSigner();
             const contract =fetchContract(signer);
             const createItem =await contract.createShipment(
-                receiver,new Date(pickUpTime).getTime(),distance,ethers.utils.parseUnits(price ,18),{value:ethers.utils.parseUnits(price,18),
-                }
+                receiver,
+                 new Date(pickupTime).getTime(),
+                 distance,
+                 ethers.utils.parseUnits(price ,18),
+                 {value: ethers.utils.parseUnits(price ,18),}
             );
-            await createItem.wait();
+            //,{value:ethers.utils.parseUnits(price,18),}
+            //await createItem.wait();
+            console.log("here the part first form the create item")
             console.log(createItem);
 
         }
@@ -43,40 +48,37 @@ new ethers.Contract(ContractAddress,ContractABI,singnerOrProvider);
             console.log("some want wrong",error);
         }
     };
-   const getAllShipment =async()=> {
+   const getAllShipment = async()=> {
         try{
-            const provider =new ethers.providers.JsonRpcProvider();
+            const provider = new ethers.providers.JsonRpcProvider();
             const contract = fetchContract(provider);
             const shipments = await contract.getAllTransaction();
-            const allshipments =shipments.map((shipment)=>({
-                sender:shipment.sender,
-                receiver:shipment.receiver,
-                price:ethers.utils.formatEther(shipment.price.toString()),
-                pickUpTime:shipment.pickUpTime.toNumber(),
+            const allshipments = shipments.map((shipment)=>({
+                sender: shipment.sender,
+                receiver: shipment.receiver,
+                price: ethers.utils.formatEther(shipment.price.toString()),
+                pickupTime: shipment.pickupTime.toNumber(),
                 deliveryTime: shipment.deliveryTime.toNumber(),
                 distance: shipment.distance.toNumber(),
-                ispaid : shipment.ispaid,
-                Status: shipment.status,
+                isPaid : shipment.isPaid,
+                status: shipment.status,
             }));
             return (allshipments);
         }
         catch(error){
-            console.log("error in  getting shipments");
+            console.log("error in  getting shipments",error);
         }
-    }
+    };
      const getShipmentCount =async()=>{
         try{
 if(!window.ethereum)return "install metamask";
-const account =await window.ethereum.request({method:"eth_accounts",});
+const account =await window.ethereum.request({method: "eth_accounts"});
 
 const provider =new ethers.providers.JsonRpcProvider();
             const contract = fetchContract(provider);
-            const ShipmentCount =await contract.getShipmentCount(account[0]);
+            const ShipmentCount =await contract.getShipmentsCount(account[0]);
             return ShipmentCount.toNumber();
-
-
-
-        }
+}
         catch(error){
             console.log("error in the get shipment count",error);
         }
@@ -85,7 +87,7 @@ const provider =new ethers.providers.JsonRpcProvider();
      const completeShipment =async(item)=>{
         try{
             if(!window.ethereum)return "install metamask";
-const account =await window.ethereum.request({method:"eth_accounts",});
+const account =await window.ethereum.request({method: "eth_accounts"});
 const web3Modal= new Web3Modal();
         
 const connection = await web3Modal.connect();
@@ -107,20 +109,20 @@ const contract =fetchContract(signer);
 try{
         const {index}=item;
         if(!window.ethereum)return "install metamask";
-const account =await window.ethereum.request({method:"eth_accounts",});
+const account =await window.ethereum.request({method: "eth_accounts"});
 
 const provider =new ethers.providers.JsonRpcProvider();
             const contract = fetchContract(provider);
             const getshipment =contract.getShipment(account[0],index*1);
             const singleshipment={
-                sender:getshipment[0],
-                receiver:getshipment[1],
-                pickUpTime:getshipment[2].toNumber(),
-                deliveryTime:getshipment[3].toNumber(),
-                distance:getshipment[4].toNumber(),
-                price:ethers.utils.formatEther(getshipment[5].toString()),
-                Status:getshipment[6],
-                ispaid:getshipment[7],
+                sender: getshipment[0],
+                receiver: getshipment[1],
+                pickupTime: getshipment[2].toNumber(),
+                deliveryTime: getshipment[3].toNumber(),
+                distance: getshipment[4].toNumber(),
+                price: ethers.utils.formatEther(getshipment[5].toString()),
+                status: getshipment[6],
+                isPaid: getshipment[7],
             };
             console.log(singleshipment);
 }
@@ -182,44 +184,21 @@ useEffect(()=>{
 
 },[]);
 
-const Allshipment=props.getAllShipment(getAllShipment);
-//const Cwallet=props.connectWallet(connectWallet);
-//const Cshipment=props.createShipment(createShipment);
-const Compshipment=props.completeShipment(completeShipment);
-const Gshipment =props.getShipment(getShipment);
-const GshipmentCount=props.getShipmentCount(getShipmentCount);
-//props.ContractAddress(ContractAddress);
-props.startShipment(startShipment);
-//props.currentUser(currentUser);
-
 
 return(
-    < >
-   {/* Allshipment={Allshipment}
-   Cwallet={Cwallet}
-    Cshipment={Cshipment}
-    Compshipment={Compshipment}
-    Gshipment={Gshipment}
-    GshipmentCount={GshipmentCount} */}
-    {/* connectWallet=  {connectWallet} */}
-        {/* createShipment={createShipment} */}
-        {/* getAllShipment ={getAllShipment} */}
-    {/* completeShipment ={completeShipment} */}
-        {/* getShipment ={getShipment} */}
-        {/* getShipmentCount ={getShipmentCount} */}
-        {/* startShipment ={startShipment}
-        dappname ={dappname} */}
-    {/* currentUser= {currentUser}
-    ContractAddress={ContractAddress}; */}
-
-
-   
-    
-   </>
-    
-)
+    <TrackingContext.Provider
+    value={{connectWallet,
+    createShipment,
+    getAllShipment,
+    completeShipment,
+    getShipment,
+    startShipment,
+    getShipmentCount,dappname,currentUser}}
+    >
+        {children}
+    </TrackingContext.Provider>
+   );
 };
-export default Child;
 
 
 
