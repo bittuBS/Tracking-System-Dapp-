@@ -1,13 +1,34 @@
 import Str1 from "./SVG/Str1";
+import {ethers} from "ethers";
+
 import { useEffect, useState } from "react";
 //internal import
 import images from "../Images/index";
 function Profile({openProfile, setOpenProfile, currentUser, getShipmentCount}){
     const [count, setCount]=useState();
+    const[bal,setbal]=useState();
+   
+       
+            
+  const bals = async()=>{
+    
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum,"any");
+  const accounts = await provider.send("eth_requestAccounts", []);
+
+  const balns= await provider.getBalance(accounts[0]);
+  //ethers.utils.formatEther(balns)
+console.log(ethers.utils.formatEther(balns));
+      setbal(ethers.utils.formatEther(balns));
+
+   }
+       
+    
     useEffect(()=>{
         const getShipmentData = getShipmentCount();
+        
         return async ()=>{
-            const allData =await getShipmentData();
+            const allData = await getShipmentData();
             setCount(allData);
         };
     },[]);
@@ -15,12 +36,13 @@ function Profile({openProfile, setOpenProfile, currentUser, getShipmentCount}){
     return openProfile ? (
         <div className="fixed inset-0 z-10 overflow-y-auto ">
         <div className="fixed inset-0 w-full h-full bg-black opacity-40"
-        onClick={()=>setOpenProfile(false)}> </div>
+        onClick={()=>setOpenProfile(false)}
+        > </div>
         <div className="flex items-center min-h-screen px-4 py-8">
             <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
                 <div className="flex justify-end">
                     <button className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
-                    onClick={()=>setOpenProfile(false)}>
+                    onClick={()=>{setOpenProfile(false);bals()}}>
 <Str1/>
                     </button>
                 </div>
@@ -32,8 +54,11 @@ function Profile({openProfile, setOpenProfile, currentUser, getShipmentCount}){
                     {currentUser}</span>
                     <div className="flex mt-4 space-x-3 md:mt-6">
                         <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center 
-                        text-black rounded-lg border-2">
-                            Balance :32 eth
+                        text-black rounded-lg border-2"
+                        >
+                        
+                        
+                            Balance :{bal}
                         </a>
                         <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center 
                         text-black rounded-lg border-2">

@@ -57,8 +57,8 @@ emit ShipmentInTransit(_sender, _receiver, shipment.pickupTime);
 function completeShipment(address _sender ,address _receiver ,uint _index) public {
     Shipment storage shipment =shipments[_sender][_index];
     TypeShipment storage typeShipment = typeShipments[_index];
-    require(shipment.receiver ==_receiver,"invalid receiver");
-    require(shipment.status ==shipmentStatus.IN_TRANSIT,"shipment not in transit");
+    require(shipment.receiver == _receiver,"invalid receiver");
+    require(shipment.status == shipmentStatus.IN_TRANSIT,"shipment not in transit");
     require(!shipment.isPaid,"shipment already paid");
     shipment.status =shipmentStatus.DELIVERD;
     typeShipment.status =shipmentStatus.DELIVERD;

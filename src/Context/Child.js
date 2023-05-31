@@ -20,11 +20,11 @@ export const TrackingContext =React.createContext();
 export const TrackingProvider =({children})=>{
     //State variable
     const dappname ="hello";
-    const [currentUser,setcurrentUser] = useState();
+    const [currentUser,setcurrentUser] = useState("");
 
     const createShipment =async(item)=>{
         console.log(item);
-        const{receiver,pickupTime,distance,price}= item;
+        const{receiver,pickupTime,distance,price} = item;
         try{
             const web3Modal =new Web3Modal();
             const connection = await web3Modal.connect();
@@ -39,8 +39,8 @@ export const TrackingProvider =({children})=>{
                  {value: ethers.utils.parseUnits(price ,18),}
             );
             //,{value:ethers.utils.parseUnits(price,18),}
-            //await createItem.wait();
-            console.log("here the part first form the create item")
+            await createItem.wait();
+            console.log("here the part first form the create item");
             console.log(createItem);
 
         }
@@ -72,7 +72,7 @@ export const TrackingProvider =({children})=>{
      const getShipmentCount =async()=>{
         try{
 if(!window.ethereum)return "install metamask";
-const account =await window.ethereum.request({method: "eth_accounts"});
+const account =await window.ethereum.request({method:"eth_accounts"});
 
 const provider =new ethers.providers.JsonRpcProvider();
             const contract = fetchContract(provider);
@@ -95,7 +95,7 @@ const provider =new ethers.providers.Web3Provider(connection);
 const signer =provider.getSigner();
 const contract =fetchContract(signer);
             const {receiver,index}=item;
-            const completeshipment = await contract.completeShipment(account[0],receiver,index,{gasLimit: 300000,});
+            const completeshipment = await contract.completeShipment(account[0],receiver,index,{gasLimit: 300000});
             completeshipment.wait();
             console.log(completeshipment);
 
@@ -138,11 +138,11 @@ const account =await window.ethereum.request({method:"eth_accounts",});
  const {receiver,index}=item;
  const web3Modal =new Web3Modal();
  const connection = await web3Modal.connect();
- const provider = await ethers.providers.Web3Provider(connection);
- const signer = await provider.getSigner();
+ const provider = new ethers.providers.Web3Provider(connection);
+ const signer =  provider.getSigner();
  const contract = fetchContract(signer);
- const startshipment = await contract.startshipment(account[0],receiver,index*1);
- await startshipment.wait();
+ const startshipment = await contract.startShipment(account[0],receiver,index*1);
+  startshipment.wait();
  console.log(startshipment);
 
     }

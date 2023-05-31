@@ -9,10 +9,11 @@ const getshipmentData = async()=>{
     setSingShipment(getData);
 };
 console.log(singleShipmentData);
-const converTime =(time)=>{
+const convertTime = (time)=>{
     const newTime =new Date(time);
     const dataTime =new Intl.DateTimeFormat("en-US",{year:"numeric",
 month:"2-digit",
+day:"2-digit",
 }).format(newTime);
 return dataTime;
 };
@@ -49,10 +50,10 @@ return getModal ? (
                     </form>
                     {singleShipmentData == undefined ? (""):(
                         <div className="text-left">
-                            <p> Sender:{ singleShipmentData.sender.slice(0,25)}...</p>
-                            <p> Receiver:{ singleShipmentData.receiver.slice(0,25)}...</p>
-                            <p> pickupTime:{converTime(singleShipmentData.pickupTime)}</p>
-                            <p> DeliveryTime:{ converTime(singleShipmentData.deliveryTime)}</p>
+                            <p> Sender:{ singleShipmentData.sender.slice(0,15)}...</p>
+                            <p> Receiver:{ singleShipmentData.receiver.slice(0,15)}...</p>
+                            <p> pickupTime:{convertTime(singleShipmentData.pickupTime)}</p>
+                            <p> DeliveryTime:{ convertTime(singleShipmentData.deliveryTime)}</p>
                             <p> Distance:{singleShipmentData.distance}</p>
                             <p> Price:{singleShipmentData.price}</p>
                             <p> Status:{singleShipmentData.status}</p>

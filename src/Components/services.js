@@ -11,15 +11,15 @@ const team=[
 ];
 
     const openModelBox=(text)=>{
-        if(text ===1){
+        if(text === 1){
             setCompleteModal(true);
             }
-            else if(text ===2){
+            else if(text === 2){
                 setGetModal(true);
             }
-            else if(text ===3)
+            else if(text === 3)
             {setStartModal(true)}
-            else if(text ===4){
+            else if(text === 4){
                 setOpenProfile(true)
             }
     };
